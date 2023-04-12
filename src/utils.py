@@ -77,3 +77,11 @@ def camera_to_image(camera_pt, camera_intrinsics):
     image_coordinates = image_coordinates[:2, :].T
     
     return image_coordinates
+
+def filter_radar(points, labels):
+
+    filtered_indices = np.where((0 < points[:, 0]) & (points[:, 0] < 1616) & (0 < points[:, 1]) & (points[:, 1] < 1240))
+    filtered_points = points[filtered_indices]
+    filtered_labels = np.array(labels)[filtered_indices]
+
+    return filtered_indices, filtered_points, filtered_labels

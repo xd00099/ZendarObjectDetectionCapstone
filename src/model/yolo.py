@@ -4,6 +4,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image
 import cv2
+import sklearn
+from sklearn.datasets import make_blobs
+
 
 
 def get_output_layers(net):
@@ -25,8 +28,6 @@ def draw_prediction(img, class_id, confidence, x, y, x_plus_w, y_plus_h, classes
 
     cv2.putText(img, label, (x - 10, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
-    plt.imshow(img)
-    plt.show()
 
 
 
@@ -55,8 +56,7 @@ def run_yolo(img, cfg_path, class_path, weights_path):
 
     # Pass Image
     image = img
-    plt.imshow(image)
-    plt.show()
+
 
     # Blob
     Width = image.shape[1]
@@ -105,11 +105,18 @@ def run_yolo(img, cfg_path, class_path, weights_path):
         w = box[2]
         h = box[3]
 
+        box_dict = []
+        box_dict.append(x)
+        box_dict.append(y)
+        box_dict.append(x+w)
+        box_dict.append(y+h)
+
+
         # Remove Classes that are not
         if class_ids[i] == 0 or class_ids[i] == 2 or class_ids[i] == 5 or class_ids[i] == 7:
              draw_prediction(image, class_ids[i], confidences[i], round(x), round(y), round(x + w), round(y + h), classes, COLORS)
 
-        box_coordinates.append(box)
+        box_coordinates.append(box_dict)
 
 
     image_boxes_np.append(box_coordinates)
@@ -118,5 +125,5 @@ def run_yolo(img, cfg_path, class_path, weights_path):
 
     image_boxes_np = np.array(image_boxes_np, dtype=object)
 
-    return labeled_images, image_boxes_np
+    return labeled_images, image_boxes_np,COLORS,class_ids ,classes
 
