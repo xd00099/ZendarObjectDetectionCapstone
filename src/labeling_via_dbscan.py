@@ -102,9 +102,9 @@ def get_label_from_image_via_DBclustering(radar_data_global_coord, camera_data, 
         '''Returns a function that maps each index in 0, 1, ..., n-1 to a distinct 
         RGB color; the keyword argument name must be a standard mpl colormap name.'''
         return plt.cm.get_cmap(name, n)
-    # cmap = get_cmap(len(d_cluster_to_2d))
-    # for c, pts in d_cluster_to_2d.items():
-    #     plt.scatter([p[0] for p in pts], [p[1] for p in pts], color=cmap(c),s=3)
+    cmap = get_cmap(len(d_cluster_to_2d))
+    for c, pts in d_cluster_to_2d.items():
+        plt.scatter([p[0] for p in pts], [p[1] for p in pts], color=cmap(c),s=3)
     plt.figure()
     plt.imshow(lab_img)
 
