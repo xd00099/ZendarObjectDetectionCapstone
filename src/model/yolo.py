@@ -25,8 +25,8 @@ def draw_prediction(img, class_id, confidence, x, y, x_plus_w, y_plus_h, classes
 
     cv2.putText(img, label, (x - 10, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
-    plt.imshow(img)
-    plt.show()
+    # plt.imshow(img)
+    # plt.show()
 
 
 
@@ -55,8 +55,8 @@ def run_yolo(img, cfg_path, class_path, weights_path):
 
     # Pass Image
     image = img
-    plt.imshow(image)
-    plt.show()
+    # plt.imshow(image)
+    # plt.show()
 
     # Blob
     Width = image.shape[1]
@@ -92,7 +92,7 @@ def run_yolo(img, cfg_path, class_path, weights_path):
                 boxes.append([x, y, w, h])
 
     indices = cv2.dnn.NMSBoxes(boxes, confidences, conf_threshold, nms_threshold)
-
+    output_labels = []
     for i in indices:
         try:
             box = boxes[i]
@@ -107,16 +107,14 @@ def run_yolo(img, cfg_path, class_path, weights_path):
 
         # Remove Classes that are not
         if class_ids[i] == 0 or class_ids[i] == 2 or class_ids[i] == 5 or class_ids[i] == 7:
-             draw_prediction(image, class_ids[i], confidences[i], round(x), round(y), round(x + w), round(y + h), classes, COLORS)
-
-        box_coordinates.append(box)
-
+            draw_prediction(image, class_ids[i], confidences[i], round(x), round(y), round(x + w), round(y + h), classes, COLORS)
+            output_labels.append(classes[class_ids[i]])
+            box_coordinates.append(box)
 
     image_boxes_np.append(box_coordinates)
     labeled_images.append(image)
 
 
     image_boxes_np = np.array(image_boxes_np, dtype=object)
-
-    return labeled_images, image_boxes_np
+    return labeled_images[0], list(zip(image_boxes_np[0], output_labels))
 
