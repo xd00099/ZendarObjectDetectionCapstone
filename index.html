@@ -42,6 +42,9 @@
                         <a class="nav-link" href="#overview">Overview</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="#motivation">Motivation</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#results">Results</a>
                     </li>
                     <li class="nav-item">
@@ -106,6 +109,23 @@
             
         </section>
 
+        <section class="white_bg" id="motivation">
+            <h2>Motivation & Benifits of Automatic Radar Labeling</h2>
+            <ul>
+            <li>    
+                <strong>Data fusion validation:</strong> By labeling objects detected in both radar point cloud and image data, you can validate the accuracy and consistency of the data fusion process. This can help to ensure that the combined data is reliable and useful for various downstream tasks, such as object tracking, path planning, or decision-making.
+            </li>
+            <li>   
+                <strong>Better understanding of object properties:</strong> Associating radar point cloud data with image-based object detections allows for a richer understanding of the properties of detected objects. For example, you can gain insight into an object's position, velocity, and distance (from radar data) and its appearance, shape, and texture (from image data). This can be especially useful for tasks such as object classification or behavior prediction.
+            </li>
+            <li>
+                <strong>Improved object detection performance:</strong> By focusing on objects detectable by both radar and camera, you can improve the overall object detection performance of your system. The fusion of these two modalities can help to confirm and validate the presence of objects in the scene, leading to more accurate and reliable detection results. Additionally, it can help to reduce false positives and negatives.
+            </li>
+            <li>
+                <strong>Enhanced safety and reliability:</strong> In autonomous driving and advanced driver assistance systems (ADAS), safety and reliability are paramount. By labeling radar point cloud data that is also detected by the camera, you can provide an additional layer of redundancy and validation for the object detection system. This can contribute to a safer and more reliable driving experience.
+            </li>
+            </ul>
+        </section>
         <section class="white_bg" id="results">
             <h2>Pipeline & Results</h2>
             <h3>1. Coordinate Transformation</h3>
