@@ -110,15 +110,42 @@
             <h2>Pipeline & Results</h2>
             <h3>1. Coordinate Transformation</h3>
             <p>Coordinate transformation involves converting radar data from its native coordinate system (radar space) to a coordinate system that is aligned with the camera data (camera space). This process allows for the integration of information from multiple sensors to improve the accuracy of object detection and localization in complex environments.</p>
+            <div style="justify-content: center;" class="row">
+                <div class="col-lg-6 col-md-10 col-sm-10">
+                    <img src="assets/point_cloud.png" alt="Coordinate Transformation Result" class="img-fluid">
+                    <p style="text-align: center;">Radar in native 3D coordinate</p>
+                </div>
+                
+            </div>
+
+            <p style="text-align: center;">&#8595;</p>
+
+            <div style="justify-content: center;" class="row">
+            <div class="col-lg-6 col-md-10 col-sm-10">
+                <img src="assets/vehicle.png" alt="Coordinate Transformation Result" class="img-fluid">
+                <p style="text-align: center;">Projection to 3D vehicle coordinate</p>
+            </div>
+            </div>
+
+            <p style="text-align: center;">&#8595;</p>
+
             <div class="row">
-                <div class="col-lg-10 col-md-10 col-sm-10">
-                    <p style="text-align: center;">Left Camera YOLO Results</p>
+                <div class="col-lg-4 col-md-10 col-sm-10">
+                    <img src="assets/coord_l.png" alt="Coordinate Transformation Result" class="img-fluid">
+                    <p style="text-align: center;">Projection onto 2D left image</p>
+                </div>
+                <div class="col-lg-4 col-md-10 col-sm-10">
                     <img src="assets/coordinate_trans.png" alt="Coordinate Transformation Result" class="img-fluid">
+                    <p style="text-align: center;">Projection onto 2D middle image</p>
+                </div>
+                <div class="col-lg-4 col-md-10 col-sm-10">
+                    <img src="assets/coord_r.png" alt="Coordinate Transformation Result" class="img-fluid">
+                    <p style="text-align: center;">Projection onto 2D right image</p>
                 </div>
             </div>
         
         
-            <h3>2. YOLO Object Detection</h3>
+            <h3>2. YOLOv3 Object Detection</h3>
             <p>YOLO (You Only Look Once) is a real-time object detection algorithm. It leverages a single neural network to simultaneously predict object classes and bounding boxes for those objects in input images. The algorithm is trained using a large dataset of labeled images and backpropagation to update the weights of the neural network.</p>
             <div class="row">
                 <div class="col-lg-4 col-md-12 col-sm-12">
@@ -140,7 +167,6 @@
         
             <h3>3. DBSCAN Clustering</h3>
             <p>DBSCAN (Density-Based Spatial Clustering of Applications with Noise) is a clustering algorithm used for unsupervised machine learning. It groups together data points that are close to each other in feature space and separates data points that are far away. The algorithm identifies clusters based on their distance from each other and recursively adds nearby points that meet the epsilon and minimum points criteria until no more points can be added to the cluster.</p>
-            <p>Image placeholder for DBSCAN clustering results:</p>
             <img style="display: flex; max-width: 100%; height: auto;" src="assets/dbscan.png" alt="DBSCAN Clustering Result" class="img-fluid">
         
             <h3>4. Merging Radar Clusters and Image Labels</h3>
