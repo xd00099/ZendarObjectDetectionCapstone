@@ -153,6 +153,6 @@ def run_cluster_3(data):
     ax.set_ylim(-10, 10)
     ax.set_zlim(20, 80)
 
-    plt.show()
+    #plt.show()
 
     return points,unique_labels,labels,cluster_dict

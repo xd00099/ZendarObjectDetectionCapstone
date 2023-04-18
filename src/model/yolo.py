@@ -53,6 +53,8 @@ def run_yolo(img, cfg_path, class_path, weights_path):
     labeled_images = []
     image_boxes_np = []
     box_coordinates = []
+    class_ids_filt = []
+    class_ids_filt_final = []
 
     # Pass Image
     image = img
@@ -112,18 +114,21 @@ def run_yolo(img, cfg_path, class_path, weights_path):
         box_dict.append(y+h)
 
 
+
         # Remove Classes that are not
         if class_ids[i] == 0 or class_ids[i] == 2 or class_ids[i] == 5 or class_ids[i] == 7:
              draw_prediction(image, class_ids[i], confidences[i], round(x), round(y), round(x + w), round(y + h), classes, COLORS)
+             box_coordinates.append(box_dict)
+             class_ids_filt.append(class_ids[i])
 
-        box_coordinates.append(box_dict)
 
 
-    image_boxes_np.append(box_coordinates)
+    #image_boxes_np.append(box_coordinates)
     labeled_images.append(image)
+    #image_boxes_np.append(box_coordinates)
 
 
     image_boxes_np = np.array(image_boxes_np, dtype=object)
 
-    return labeled_images, image_boxes_np,COLORS,class_ids ,classes
+    return labeled_images, box_coordinates,COLORS,class_ids_filt,classes
 
