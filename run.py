@@ -3,6 +3,8 @@ from src.labeling_via_dbscan import get_label_from_image_via_DBclustering, perfo
 from src.utils import *
 
 import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 import cv2
 
 LEFT_CAM = '21248038'
@@ -13,9 +15,10 @@ LEFT_RADAR = 'ZRVE1002'
 MID_RADAR = 'ZRVC2001'
 RIGHT_RADAR = 'ZRVE1001'
 
-filepath = 'data/00100.npz'
+filepath = 'data/00000.npz'
 sensor_prop_path = 'data/extrinsics_intrinsics.npz'
 label_color = {'car': 'yellow', 'truck':'red', 'person': 'green', 'bus':'orange'}
+color_label = {'yellow':'car', 'red':'truck', 'green':'person', 'orange':'bus', 'black':'others'}
 
 if __name__ == '__main__':
 
@@ -48,7 +51,6 @@ if __name__ == '__main__':
 
 
     # graphing the results: top-down view
-    plt.figure()
     # Group points by label
     points_by_label = {}
     for pt, label in all_3D_to_label.items():
@@ -58,9 +60,16 @@ if __name__ == '__main__':
             points_by_label[label] = [pt]
 
     # Plot points for each label in a single call
+    fig, ax = plt.subplots()
     for label, points in points_by_label.items():
         color = label_color.get(label, 'black')
         points_np = np.array(points)
-        plt.scatter(points_np[:, 0], points_np[:, 1], color=color, s=3)
+        ax.scatter(-points_np[:, 1], points_np[:, 0], color=color, s=3, label=color_label[color])
+    legend = ax.legend(loc='upper right', title='Dot Colors')
+
+    car_logo = mpimg.imread('assets/car.png')
+    imagebox = AnnotationBbox(OffsetImage(car_logo, zoom=0.07), (0, 0), boxcoords="offset points", frameon=False)
+    ax.add_artist(imagebox)
+    ax.set_axis_off()
 
     plt.show()
