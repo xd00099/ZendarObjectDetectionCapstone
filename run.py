@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 import cv2
+import argparse
 
 LEFT_CAM = '21248038'
 MID_CAM = '20438665'
@@ -19,15 +20,21 @@ filepath = 'data/00000.npz'
 sensor_prop_path = 'data/extrinsics_intrinsics.npz'
 label_color = {'car': 'yellow', 'truck':'red', 'person': 'green', 'bus':'orange'}
 color_label = {'yellow':'car', 'red':'truck', 'green':'person', 'orange':'bus', 'black':'others'}
+save_pics = True
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="Example script with command-line arguments")
+    parser.add_argument("--data", type=str, help="location of data file")
+    args = parser.parse_args()
 
+    filepath = args.data
     data = Scene(filepath)
     sensor_props = CameraRadarProps(sensor_prop_path)
 
     radar_data = data.get_radar_data()
     camera_data = data.get_camera_data()
     cam = RIGHT_CAM
+    view_num = filepath.split('.')[0][7:]
 
     # camera_data[cam] -- middle image  --> bounding boxes
     # plot boxes [(x1,y1,x2,y2)] x,y  x1 <  x < x2 , y1 < y < y2 
@@ -45,9 +52,9 @@ if __name__ == '__main__':
     clusters = perform_DBScan(radar_data_global_coord)
 
 
-    get_label_from_image_via_DBclustering(radar_data_global_coord, camera_data, LEFT_CAM,clusters, sensor_props, all_3D_to_label)
-    get_label_from_image_via_DBclustering(radar_data_global_coord, camera_data, MID_CAM,clusters, sensor_props, all_3D_to_label)
-    get_label_from_image_via_DBclustering(radar_data_global_coord, camera_data, RIGHT_CAM,clusters, sensor_props, all_3D_to_label)
+    get_label_from_image_via_DBclustering(radar_data_global_coord, camera_data, LEFT_CAM,clusters, sensor_props, all_3D_to_label, view_num, save_pics)
+    get_label_from_image_via_DBclustering(radar_data_global_coord, camera_data, MID_CAM,clusters, sensor_props, all_3D_to_label, view_num, save_pics)
+    get_label_from_image_via_DBclustering(radar_data_global_coord, camera_data, RIGHT_CAM,clusters, sensor_props, all_3D_to_label, view_num, save_pics)
 
 
     # graphing the results: top-down view
@@ -70,6 +77,8 @@ if __name__ == '__main__':
     car_logo = mpimg.imread('assets/car.png')
     imagebox = AnnotationBbox(OffsetImage(car_logo, zoom=0.07), (0, 0), boxcoords="offset points", frameon=False)
     ax.add_artist(imagebox)
+    ax.set_xlim(-100, 100)
     ax.set_axis_off()
 
-    plt.show()
+    plt.savefig(f'outputs/bird_eye_view/{view_num}.png', dpi=300)
+    # plt.show()

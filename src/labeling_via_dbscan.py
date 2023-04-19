@@ -8,6 +8,9 @@ import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt
 import cv2
 
+LEFT_CAM = '21248038'
+MID_CAM = '20438665'
+RIGHT_CAM = '21248039'
 
 yolo_cfg_path = 'yolo_setup/yolov3.cfg'
 yolo_class_path = 'yolo_setup/yolov3.txt'
@@ -24,7 +27,7 @@ def perform_DBScan(radar_data):
     return clusters
 
 
-def get_label_from_image_via_DBclustering(radar_data_global_coord, camera_data, CAM, clusters, sensor_props, all_3D_to_label):
+def get_label_from_image_via_DBclustering(radar_data_global_coord, camera_data, CAM, clusters, sensor_props, all_3D_to_label, view_num, save_pics):
     """
     Assigns object labels to radar points in 3D space by projecting them onto a camera image and
     using a YOLO object detector to find the corresponding bounding boxes and labels.
@@ -128,3 +131,14 @@ def get_label_from_image_via_DBclustering(radar_data_global_coord, camera_data, 
             # give label in 3d coordinate
             for pt in d_cluster_to_3D[c]:
                 all_3D_to_label[tuple(pt)] = label
+
+    if CAM == LEFT_CAM:
+        view_path = 'left_view'
+    elif CAM == MID_CAM:
+        view_path = 'front_view'
+    else:
+        view_path = 'right_view'
+
+    if save_pics:
+        plt.axis('off')
+        plt.savefig(f'outputs/{view_path}/{view_num}.png', dpi=300, bbox_inches='tight', pad_inches=0)
