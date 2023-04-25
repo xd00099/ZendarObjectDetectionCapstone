@@ -4,7 +4,7 @@ from src.model.yolo import draw_prediction
 import matplotlib.pyplot as plt
 
 
-def merge_labels(bb, img, filtered_points, class_ids, classes, COLORS, unique_labels):
+def merge_labels(bb, img, filtered_points, class_ids, classes, COLORS):
     # Bounding boxes
     boxes = bb
     # Create an empty mask with the same dimensions as the image
@@ -23,7 +23,7 @@ def merge_labels(bb, img, filtered_points, class_ids, classes, COLORS, unique_la
         confidence = 0  # dummy value
         draw_prediction(img, class_ids[i], confidence, x1, y1, x2, y2, classes, COLORS)
 
-    colors = plt.cm.Spectral(np.linspace(0, 1, len(unique_labels)))
+    #colors = plt.cm.Spectral(np.linspace(0, 1, len(unique_labels)))
 
     # Extract filtered x and y coordinates
     # test = filtered_points[np.array(filtered_labels)][:, 0]
