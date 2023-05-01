@@ -16,6 +16,8 @@ yolo_cfg_path = 'yolo_setup/yolov3.cfg'
 yolo_class_path = 'yolo_setup/yolov3.txt'
 yolo_weights_path = 'yolo_setup/yolov3.weights'
 
+label_color = {'car': 'yellow', 'truck':'red', 'person': 'green', 'bus':'orange'}
+
 
 def perform_DBScan(radar_data):
     dbscan = DBSCAN(eps=1, min_samples=3) # good config (1,3)
@@ -119,14 +121,15 @@ def get_label_from_image_via_DBclustering(radar_data_global_coord, camera_data, 
         most_frequent_bb = value_counts.most_common(1)[0]
 
         if most_frequent_bb[0]:
-            # plt.scatter(most_frequent_bb[0][0], most_frequent_bb[0][1], color='red')
-            for pt in d_cluster_to_2d[c]:
-                plt.scatter(pt[0], pt[1], s=3, color='red')
-            # plt.show()
 
             label = most_frequent_bb[0][-1]
             # give label in clusters
             d_cluster_to_label[c] = label
+
+            # plt.scatter(most_frequent_bb[0][0], most_frequent_bb[0][1], color='red')
+            for pt in d_cluster_to_2d[c]:
+                plt.scatter(pt[0], pt[1], s=3, color=label_color[label])
+            # plt.show()
 
             # give label in 3d coordinate
             for pt in d_cluster_to_3D[c]:

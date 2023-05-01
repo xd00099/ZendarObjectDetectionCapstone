@@ -20,14 +20,15 @@ filepath = 'data/00000.npz'
 sensor_prop_path = 'data/extrinsics_intrinsics.npz'
 label_color = {'car': 'yellow', 'truck':'red', 'person': 'green', 'bus':'orange'}
 color_label = {'yellow':'car', 'red':'truck', 'green':'person', 'orange':'bus', 'black':'others'}
-save_pics = True
+save_pics = False
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Example script with command-line arguments")
     parser.add_argument("--data", type=str, help="location of data file")
     args = parser.parse_args()
 
-    filepath = args.data
+    if args.data:
+        filepath = args.data
     data = Scene(filepath)
     sensor_props = CameraRadarProps(sensor_prop_path)
 
@@ -80,5 +81,5 @@ if __name__ == '__main__':
     ax.set_xlim(-100, 100)
     ax.set_axis_off()
 
-    plt.savefig(f'outputs/bird_eye_view/{view_num}.png', dpi=300)
-    # plt.show()
+    if not save_pics:
+        plt.show()
